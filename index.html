@@ -5,29 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Launcher</title>
   <style>
-    /* Styles to make the video fill the entire screen */
     body, html {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
     }
 
+    /* Video styling */
     video {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Change to 'contain' if you don't want the video cropped */
+      object-fit: cover;
+      display: none; /* Hidden until a version is selected */
+    }
+
+    /* Initial Menu styling */
+    #selectionMenu {
+      text-align: center;
+      z-index: 10;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #333;
+      border: 2px solid #555;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background-color: #555;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <video id="myVideo" autoplay muted playsinline>
+  <div id="selectionMenu">
+    <h1>Select Version</h1>
+    <div class="btn-container">
+      <button onclick="selectVersion('Starter Menu.mp4')">Short</button>
+      <button onclick="selectVersion('Full Menu.mp4')">Full</button>
+    </div>
+  </div>
+
+  <video id="myVideo" playsinline>
     <source id="videoSource" src="Launch.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -35,16 +79,31 @@
   <script>
     const video = document.getElementById('myVideo');
     const source = document.getElementById('videoSource');
+    const selectionMenu = document.getElementById('selectionMenu');
+    
+    let targetMenuVideo = '';
+
+    // Function called when user clicks Short or Full
+    function selectVersion(menuFile) {
+      targetMenuVideo = menuFile; // Save the selected menu video path
+
+      // Hide the menu and display the video element
+      selectionMenu.style.display = 'none';
+      video.style.display = 'block';
+
+      // Start playing Launch.mp4
+      video.play();
+    }
 
     // Event listener for when Launch.mp4 finishes playing
     video.addEventListener('ended', function() {
-      // Change the source to Menu.mp4
-      source.src = 'Menu.mp4';
+      // Switch source to the chosen menu video
+      source.src = targetMenuVideo;
       
-      // Enable looping for the new video
+      // Enable looping for the menu video
       video.loop = true;
       
-      // Reload the video player with the new source and start playing
+      // Reload and play the new video
       video.load();
       video.play();
     });
