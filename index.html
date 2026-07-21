@@ -3,185 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subway Kiosk</title>
+    <title>Subway Self-Ordering Kiosk - Landscape</title>
     <style>
+        /* CSS Reset & Fullscreen Landscape Setup */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        body {
-            background-color: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Screen Outer Frame */
-        .kiosk-frame {
-            width: 380px;
-            height: 680px;
-            background-color: #000;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Screen Display Area */
-        .screen {
-            width: 100%;
-            height: 100%;
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             background-color: #ffffff;
-            /* Subway brick wall subtle pattern overlay simulated via CSS background */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
-                              repeating-linear-gradient(0deg, #e5e5e5, #e5e5e5 1px, transparent 1px, transparent 20px),
-                              repeating-linear-gradient(90deg, #e5e5e5, #e5e5e5 1px, transparent 1px, transparent 40px);
+        }
+
+        /* Edge-to-Edge Horizontal Container */
+        .kiosk-container {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            justify-content: center;
+            padding: 4vw 6vw;
+            
+            /* Clean Subway tile pattern background */
+            background-color: #fcfcfc;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+                repeating-linear-gradient(0deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 40px),
+                repeating-linear-gradient(90deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 80px);
+        }
+
+        /* Left Column: Branding and Payment Info */
+        .left-column {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            align-items: center;
-            padding: 40px 20px 20px 20px;
-            text-align: center;
+            height: 100%;
+            padding-right: 4vw;
         }
 
-        /* Logo Formatting */
         .logo {
-            font-size: 38px;
+            font-size: clamp(3rem, 7vw, 5.5rem);
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -1px;
-            margin-top: 10px;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            line-height: 1;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
         }
 
-        .logo .sub {
-            color: #FFC20E; /* Subway Yellow */
+        .logo .sub { color: #FFC20E; }
+        .logo .way { color: #008938; }
+
+        .payment-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .logo .way {
-            color: #008938; /* Subway Green */
-        }
-
-        /* Main Heading */
-        .main-heading {
-            font-size: 28px;
+        .payment-title {
+            font-size: clamp(0.75rem, 1.2vw, 1rem);
             font-weight: 800;
-            color: #27253D;
-            line-height: 1.2;
-            margin-top: 20px;
+            color: #555566;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        /* Call to Action Button / Oval */
-        .touch-prompt {
-            background-color: #ffffff;
-            border-radius: 30px;
-            padding: 12px 28px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        .payment-badges {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            padding: 6px 14px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .badge svg {
+            height: 22px;
+            width: auto;
+        }
+
+        /* Right Column: Order Call to Action & Touch Button */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4vh;
+            height: 100%;
+            text-align: center;
+        }
+
+        .headline {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #27253D;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+
+        .touch-button {
+            width: 100%;
+            max-width: 450px;
+            padding: 24px 32px;
+            background-color: #ffffff;
+            border: 3px solid #008938;
+            border-radius: 50px;
+            box-shadow: 0 12px 28px rgba(0, 137, 56, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
             cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .touch-button:active {
+            transform: scale(0.97);
+            background-color: #f4fff7;
+            box-shadow: 0 6px 16px rgba(0, 137, 56, 0.2);
         }
 
         .touch-icon {
-            width: 20px;
-            height: 20px;
+            width: 32px;
+            height: 32px;
             fill: #008938;
         }
 
         .touch-text {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-weight: 800;
             color: #008938;
-        }
-
-        /* Footer Section */
-        .footer {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .payment-label {
-            font-size: 10px;
-            font-weight: 700;
             letter-spacing: 0.5px;
-            color: #27253D;
-            text-transform: uppercase;
         }
-
-        /* Payment Icons Grid */
-        .payment-icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .payment-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            padding: 3px 6px;
-            font-size: 10px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 22px;
-            color: #333;
-        }
-
-        .mc { color: #eb001b; }
-        .visa { color: #1a1f71; font-style: italic; font-weight: 900; }
-        .giro { color: #000066; }
-        .pay { color: #000; font-weight: 600; }
-
     </style>
 </head>
 <body>
 
-    <div class="kiosk-frame">
-        <div class="screen">
-            
-            <div class="logo">
+    <div class="kiosk-container">
+
+        <div class="left-column">
+            <header class="logo">
                 <span class="sub">SUB</span><span class="way">WAY</span>
-            </div>
+            </header>
 
-            <div class="main-heading">
-                Order & Pay<br>Here
-            </div>
+            <footer class="payment-section">
+                <p class="payment-title">Our Payment Options</p>
+                <div class="payment-badges">
+                    <div class="badge" title="Mastercard">
+                        <svg viewBox="0 0 36 24" width="36" height="24">
+                            <circle cx="13" cy="12" r="10" fill="#EB001B"/>
+                            <circle cx="23" cy="12" r="10" fill="#F79E1B" fill-opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <div class="badge" title="Visa">
+                        <svg viewBox="0 0 36 24" width="36" height="24">
+                            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="14" fill="#1A1F71">VISA</text>
+                        </svg>
+                    </div>
+                    <div class="badge" title="Contactless Payment">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round">
+                            <path d="M8.5 14.5A5 5 0 0 1 8.5 9.5"/>
+                            <path d="M11.5 17.5A9 9 0 0 0 11.5 6.5"/>
+                            <path d="M14.5 20.5A13 13 0 0 0 14.5 3.5"/>
+                        </svg>
+                    </div>
+                    <div class="badge" title="Apple Pay">
+                        <svg viewBox="0 0 36 24" width="36" height="24">
+                            <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#000000"> Pay</text>
+                        </svg>
+                    </div>
+                    <div class="badge" title="Google Pay">
+                        <svg viewBox="0 0 36 24" width="36" height="24">
+                            <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#4285F4">G <tspan fill="#333">Pay</tspan></text>
+                        </svg>
+                    </div>
+                </div>
+            </footer>
+        </div>
 
-            <div class="touch-prompt">
+        <main class="right-column">
+            <h1 class="headline">Order & Pay Here</h1>
+
+            <button class="touch-button" aria-label="Touch the display to start ordering">
                 <svg class="touch-icon" viewBox="0 0 24 24">
                     <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74 0-2.48-2.02-4.5-4.5-4.5S7 5.02 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.28-.14-.59-.21-.9-.21H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.08-.02-.17-.03-.25-.03-.38 0-.73.16-.98.42l-.83.84 4.88 4.88c.28.28.67.45 1.08.45h7.21c.74 0 1.37-.53 1.49-1.26l.87-5.22c.11-.67-.18-1.34-.75-1.71z"/>
                 </svg>
                 <span class="touch-text">Touch the Display</span>
-            </div>
+            </button>
+        </main>
 
-            <div class="footer">
-                <div class="payment-label">Our Payment Options</div>
-                <div class="payment-icons">
-                    <div class="payment-card mc">Mastercard</div>
-                    <div class="payment-card visa">VISA</div>
-                    <div class="payment-card mc">Maestro</div>
-                    <div class="payment-card giro">Girocard</div>
-                    <div class="payment-card pay"> Pay</div>
-                    <div class="payment-card pay">G Pay</div>
-                </div>
-            </div>
-
-        </div>
     </div>
 
 </body>
