@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subway Self-Ordering Kiosk - Landscape</title>
+    <title>Subway Self-Ordering Kiosk - Centered Landscape</title>
     <style>
-        /* CSS Reset & Fullscreen Landscape Setup */
+        /* CSS Reset & Fullscreen Setup */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,115 +22,62 @@
             background-color: #ffffff;
         }
 
-        /* Edge-to-Edge Horizontal Container */
+        /* Edge-to-Edge Container with Centered Flex Alignment */
         .kiosk-container {
             width: 100vw;
             height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            padding: 4vw 6vw;
+            align-items: center;
+            text-align: center;
+            padding: 4vw;
+            gap: 5vh;
             
             /* Clean Subway tile pattern background */
             background-color: #fcfcfc;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
-                repeating-linear-gradient(0deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 40px),
-                repeating-linear-gradient(90deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 80px);
+                linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)),
+                repeating-linear-gradient(0deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 50px),
+                repeating-linear-gradient(90deg, #e2e2e2, #e2e2e2 2px, transparent 2px, transparent 100px);
         }
 
-        /* Left Column: Branding and Payment Info */
-        .left-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            padding-right: 4vw;
-        }
-
+        /* Enlarged Logo */
         .logo {
-            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-size: clamp(5rem, 12vw, 9rem);
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -2px;
+            letter-spacing: -3px;
             text-transform: uppercase;
             line-height: 1;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.1));
         }
 
         .logo .sub { color: #FFC20E; }
         .logo .way { color: #008938; }
 
-        .payment-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .payment-title {
-            font-size: clamp(0.75rem, 1.2vw, 1rem);
-            font-weight: 800;
-            color: #555566;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .payment-badges {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background-color: #ffffff;
-            border: 1px solid #dcdcdc;
-            border-radius: 6px;
-            padding: 6px 14px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-        }
-
-        .badge svg {
-            height: 22px;
-            width: auto;
-        }
-
-        /* Right Column: Order Call to Action & Touch Button */
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 4vh;
-            height: 100%;
-            text-align: center;
-        }
-
+        /* Larger Heading */
         .headline {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            font-weight: 900;
             color: #27253D;
-            line-height: 1.1;
-            letter-spacing: -0.5px;
+            line-height: 1.05;
+            letter-spacing: -1px;
         }
 
+        /* Massive Touch Button */
         .touch-button {
             width: 100%;
-            max-width: 450px;
-            padding: 24px 32px;
+            max-width: 650px;
+            padding: 32px 48px;
             background-color: #ffffff;
-            border: 3px solid #008938;
-            border-radius: 50px;
-            box-shadow: 0 12px 28px rgba(0, 137, 56, 0.15);
+            border: 5px solid #008938;
+            border-radius: 60px;
+            box-shadow: 0 16px 36px rgba(0, 137, 56, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
+            gap: 20px;
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
             outline: none;
@@ -138,22 +85,64 @@
         }
 
         .touch-button:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
             background-color: #f4fff7;
-            box-shadow: 0 6px 16px rgba(0, 137, 56, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 137, 56, 0.25);
         }
 
         .touch-icon {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             fill: #008938;
         }
 
         .touch-text {
-            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
             font-weight: 800;
             color: #008938;
             letter-spacing: 0.5px;
+        }
+
+        /* Centered & Scaled Payment Footer */
+        .payment-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-top: 2vh;
+        }
+
+        .payment-title {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            font-weight: 800;
+            color: #555566;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .payment-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background-color: #ffffff;
+            border: 2px solid #dcdcdc;
+            border-radius: 10px;
+            padding: 8px 20px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .badge svg {
+            height: 32px;
+            width: auto;
         }
     </style>
 </head>
@@ -161,56 +150,52 @@
 
     <div class="kiosk-container">
 
-        <div class="left-column">
-            <header class="logo">
-                <span class="sub">SUB</span><span class="way">WAY</span>
-            </header>
+        <header class="logo">
+            <span class="sub">SUB</span><span class="way">WAY</span>
+        </header>
 
-            <footer class="payment-section">
-                <p class="payment-title">Our Payment Options</p>
-                <div class="payment-badges">
-                    <div class="badge" title="Mastercard">
-                        <svg viewBox="0 0 36 24" width="36" height="24">
-                            <circle cx="13" cy="12" r="10" fill="#EB001B"/>
-                            <circle cx="23" cy="12" r="10" fill="#F79E1B" fill-opacity="0.9"/>
-                        </svg>
-                    </div>
-                    <div class="badge" title="Visa">
-                        <svg viewBox="0 0 36 24" width="36" height="24">
-                            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="14" fill="#1A1F71">VISA</text>
-                        </svg>
-                    </div>
-                    <div class="badge" title="Contactless Payment">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round">
-                            <path d="M8.5 14.5A5 5 0 0 1 8.5 9.5"/>
-                            <path d="M11.5 17.5A9 9 0 0 0 11.5 6.5"/>
-                            <path d="M14.5 20.5A13 13 0 0 0 14.5 3.5"/>
-                        </svg>
-                    </div>
-                    <div class="badge" title="Apple Pay">
-                        <svg viewBox="0 0 36 24" width="36" height="24">
-                            <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#000000"> Pay</text>
-                        </svg>
-                    </div>
-                    <div class="badge" title="Google Pay">
-                        <svg viewBox="0 0 36 24" width="36" height="24">
-                            <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#4285F4">G <tspan fill="#333">Pay</tspan></text>
-                        </svg>
-                    </div>
+        <h1 class="headline">Order & Pay Here</h1>
+
+        <button class="touch-button" aria-label="Touch the display to start ordering">
+            <svg class="touch-icon" viewBox="0 0 24 24">
+                <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74 0-2.48-2.02-4.5-4.5-4.5S7 5.02 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.28-.14-.59-.21-.9-.21H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.08-.02-.17-.03-.25-.03-.38 0-.73.16-.98.42l-.83.84 4.88 4.88c.28.28.67.45 1.08.45h7.21c.74 0 1.37-.53 1.49-1.26l.87-5.22c.11-.67-.18-1.34-.75-1.71z"/>
+            </svg>
+            <span class="touch-text">Touch the Display</span>
+        </button>
+
+        <footer class="payment-section">
+            <p class="payment-title">Our Payment Options</p>
+            <div class="payment-badges">
+                <div class="badge" title="Mastercard">
+                    <svg viewBox="0 0 36 24" width="48" height="32">
+                        <circle cx="13" cy="12" r="10" fill="#EB001B"/>
+                        <circle cx="23" cy="12" r="10" fill="#F79E1B" fill-opacity="0.9"/>
+                    </svg>
                 </div>
-            </footer>
-        </div>
-
-        <main class="right-column">
-            <h1 class="headline">Order & Pay Here</h1>
-
-            <button class="touch-button" aria-label="Touch the display to start ordering">
-                <svg class="touch-icon" viewBox="0 0 24 24">
-                    <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74 0-2.48-2.02-4.5-4.5-4.5S7 5.02 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.28-.14-.59-.21-.9-.21H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.08-.02-.17-.03-.25-.03-.38 0-.73.16-.98.42l-.83.84 4.88 4.88c.28.28.67.45 1.08.45h7.21c.74 0 1.37-.53 1.49-1.26l.87-5.22c.11-.67-.18-1.34-.75-1.71z"/>
-                </svg>
-                <span class="touch-text">Touch the Display</span>
-            </button>
-        </main>
+                <div class="badge" title="Visa">
+                    <svg viewBox="0 0 36 24" width="48" height="32">
+                        <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="14" fill="#1A1F71">VISA</text>
+                    </svg>
+                </div>
+                <div class="badge" title="Contactless Payment">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round">
+                        <path d="M8.5 14.5A5 5 0 0 1 8.5 9.5"/>
+                        <path d="M11.5 17.5A9 9 0 0 0 11.5 6.5"/>
+                        <path d="M14.5 20.5A13 13 0 0 0 14.5 3.5"/>
+                    </svg>
+                </div>
+                <div class="badge" title="Apple Pay">
+                    <svg viewBox="0 0 36 24" width="48" height="32">
+                        <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#000000"> Pay</text>
+                    </svg>
+                </div>
+                <div class="badge" title="Google Pay">
+                    <svg viewBox="0 0 36 24" width="48" height="32">
+                        <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#4285F4">G <tspan fill="#333">Pay</tspan></text>
+                    </svg>
+                </div>
+            </div>
+        </footer>
 
     </div>
 
