@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subway Kiosk</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Screen Outer Frame */
+        .kiosk-frame {
+            width: 380px;
+            height: 680px;
+            background-color: #000;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Screen Display Area */
+        .screen {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            /* Subway brick wall subtle pattern overlay simulated via CSS background */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
+                              repeating-linear-gradient(0deg, #e5e5e5, #e5e5e5 1px, transparent 1px, transparent 20px),
+                              repeating-linear-gradient(90deg, #e5e5e5, #e5e5e5 1px, transparent 1px, transparent 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+        }
+
+        /* Logo Formatting */
+        .logo {
+            font-size: 38px;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -1px;
+            margin-top: 10px;
+        }
+
+        .logo .sub {
+            color: #FFC20E; /* Subway Yellow */
+        }
+
+        .logo .way {
+            color: #008938; /* Subway Green */
+        }
+
+        /* Main Heading */
+        .main-heading {
+            font-size: 28px;
+            font-weight: 800;
+            color: #27253D;
+            line-height: 1.2;
+            margin-top: 20px;
+        }
+
+        /* Call to Action Button / Oval */
+        .touch-prompt {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 12px 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            cursor: pointer;
+        }
+
+        .touch-icon {
+            width: 20px;
+            height: 20px;
+            fill: #008938;
+        }
+
+        .touch-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #008938;
+        }
+
+        /* Footer Section */
+        .footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .payment-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #27253D;
+            text-transform: uppercase;
+        }
+
+        /* Payment Icons Grid */
+        .payment-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .payment-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 22px;
+            color: #333;
+        }
+
+        .mc { color: #eb001b; }
+        .visa { color: #1a1f71; font-style: italic; font-weight: 900; }
+        .giro { color: #000066; }
+        .pay { color: #000; font-weight: 600; }
+
+    </style>
+</head>
+<body>
+
+    <div class="kiosk-frame">
+        <div class="screen">
+            
+            <div class="logo">
+                <span class="sub">SUB</span><span class="way">WAY</span>
+            </div>
+
+            <div class="main-heading">
+                Order & Pay<br>Here
+            </div>
+
+            <div class="touch-prompt">
+                <svg class="touch-icon" viewBox="0 0 24 24">
+                    <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74 0-2.48-2.02-4.5-4.5-4.5S7 5.02 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.28-.14-.59-.21-.9-.21H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.08-.02-.17-.03-.25-.03-.38 0-.73.16-.98.42l-.83.84 4.88 4.88c.28.28.67.45 1.08.45h7.21c.74 0 1.37-.53 1.49-1.26l.87-5.22c.11-.67-.18-1.34-.75-1.71z"/>
+                </svg>
+                <span class="touch-text">Touch the Display</span>
+            </div>
+
+            <div class="footer">
+                <div class="payment-label">Our Payment Options</div>
+                <div class="payment-icons">
+                    <div class="payment-card mc">Mastercard</div>
+                    <div class="payment-card visa">VISA</div>
+                    <div class="payment-card mc">Maestro</div>
+                    <div class="payment-card giro">Girocard</div>
+                    <div class="payment-card pay"> Pay</div>
+                    <div class="payment-card pay">G Pay</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
