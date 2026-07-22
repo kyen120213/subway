@@ -19,7 +19,7 @@
     #myVideo {
       width: 100%;
       height: 100%;
-      display: none; /* Hidden until menu option is chosen */
+      display: block;
     }
 
     /* Vista-compatible absolute centering for the menu */
@@ -33,6 +33,7 @@
       margin-left: -160px; /* Half of width */
       text-align: center;
       z-index: 10;
+      display: none; /* Hidden at start while Launch.mp4 plays */
     }
 
     h1 {
@@ -62,6 +63,11 @@
 </head>
 <body>
 
+  <video id="myVideo" autoplay muted playsinline>
+    <source id="videoSource" src="Launch.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
   <div id="selectionMenu">
     <h1>Select Version</h1>
     <div class="btn-container">
@@ -70,39 +76,33 @@
     </div>
   </div>
 
-  <video id="myVideo">
-    <source id="videoSource" src="Launch.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
   <script>
-    // Using 'var' instead of 'const/let' for legacy JS engines (IE9/Vista)
     var video = document.getElementById('myVideo');
     var source = document.getElementById('videoSource');
     var selectionMenu = document.getElementById('selectionMenu');
-    var targetMenuVideo = '';
 
-    function selectVersion(menuFile) {
-      targetMenuVideo = menuFile;
-
-      // Hide menu and display video container
-      selectionMenu.style.display = 'none';
-      video.style.display = 'block';
-
-      // Play Launch.mp4
-      video.play();
-    }
-
-    // Listener for when Launch.mp4 ends
+    // Listener for when Launch.mp4 finishes playing
     if (video.addEventListener) {
-      video.addEventListener('ended', onVideoEnd, false);
+      video.addEventListener('ended', onLaunchEnd, false);
     } else if (video.attachEvent) {
-      video.attachEvent('onended', onVideoEnd);
+      video.attachEvent('onended', onLaunchEnd);
     }
 
-    function onVideoEnd() {
-      source.src = targetMenuVideo;
+    // Called when Launch.mp4 finishes
+    function onLaunchEnd() {
+      // Reveal the selection menu over the video
+      selectionMenu.style.display = 'block';
+    }
+
+    // Called when user clicks "Short" or "Full"
+    function selectVersion(menuFile) {
+      // Hide the menu screen
+      selectionMenu.style.display = 'none';
+
+      // Load the chosen menu video
+      source.src = menuFile;
       video.loop = true;
+      video.muted = false; // Unmute if you want sound for the main menu
       video.load();
       video.play();
     }
