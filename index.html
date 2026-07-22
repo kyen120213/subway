@@ -73,13 +73,13 @@
   <div id="selectionMenu" class="overlay">
     <h1>Select Version</h1>
     <div>
-      <button onclick="selectVersion('./StarterMenu.mp4')">Short</button>
-      <button onclick="selectVersion('./FullMenu.mp4')">Full</button>
+      <button onclick="selectVersion('Starter%20Menu.mp4')">Short</button>
+      <button onclick="selectVersion('Full%20Menu.mp4')">Full</button>
     </div>
   </div>
 
   <video id="myVideo" muted playsinline preload="auto">
-    <source id="videoSource" src="./Launch.mp4" type="video/mp4">
+    <source id="videoSource" src="Launcher.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -91,11 +91,11 @@
     function startLauncher() {
       startOverlay.style.display = 'none';
       video.play().catch(function(error) {
-        console.error("Vercel playback error:", error);
+        console.error("Playback error:", error);
       });
     }
 
-    // Triggers when Launch.mp4 finishes
+    // Triggers when Launcher.mp4 finishes
     video.addEventListener('ended', function() {
       if (!video.loop) {
         selectionMenu.style.display = 'flex';
@@ -106,10 +106,9 @@
     function selectVersion(menuFile) {
       selectionMenu.style.display = 'none';
       
-      // Direct source assignment works best across Vercel CDNs
       video.src = menuFile;
       video.loop = true;
-      video.muted = false; // Unmutes once user clicked a menu button
+      video.muted = false; // Unmutes once user selects an option
       video.load();
       video.play().catch(function(err) {
         console.error("Error playing menu video:", err);
