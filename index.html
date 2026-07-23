@@ -14,14 +14,16 @@
       color: #fff;
       font-family: Arial, sans-serif;
       overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     video {
       width: 100%;
       height: 100%;
-      /* Changed from 'cover' to 'contain' to prevent video cropping */
       object-fit: contain;
       display: block;
+      pointer-events: none; 
     }
 
     .overlay {
@@ -36,10 +38,6 @@
       justify-content: center;
       align-items: center;
       z-index: 10;
-    }
-
-    #selectionMenu {
-      display: none;
     }
 
     h1 {
@@ -64,19 +62,11 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
   <div id="startOverlay" class="overlay">
     <h1>Click to Launch</h1>
     <button onclick="startLauncher()">Start</button>
-  </div>
-
-  <div id="selectionMenu" class="overlay">
-    <h1>Select Version</h1>
-    <div>
-      <button onclick="selectVersion('Starter%20Menu.mp4')">Short</button>
-      <button onclick="selectVersion('Full%20Menu.mp4')">Full</button>
-    </div>
   </div>
 
   <video id="myVideo" muted playsinline preload="auto">
@@ -87,34 +77,47 @@
   <script>
     const video = document.getElementById('myVideo');
     const startOverlay = document.getElementById('startOverlay');
-    const selectionMenu = document.getElementById('selectionMenu');
+
+    // Block right clicks
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    }, false);
+
+    // Block player keyboard shortcuts (Space, Arrows, F, K)
+    document.addEventListener('keydown', function(e) {
+      if ([32, 37, 38, 39, 40, 70, 75].includes(e.keyCode)) {
+        e.preventDefault();
+      }
+    });
+
+    function openFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
 
     function startLauncher() {
       startOverlay.style.display = 'none';
+      openFullscreen();
       video.play().catch(function(error) {
         console.error("Playback error:", error);
       });
     }
 
-    // Triggers when Launcher.mp4 finishes
     video.addEventListener('ended', function() {
-      if (!video.loop) {
-        selectionMenu.style.display = 'flex';
-      }
-    });
-
-    // Switches video when user selects Short/Full
-    function selectVersion(menuFile) {
-      selectionMenu.style.display = 'none';
-      
-      video.src = menuFile;
+      video.src = 'Starter%20Menu.mp4';
       video.loop = true;
-      video.muted = false; // Unmutes once user selects an option
+      video.muted = false;
       video.load();
       video.play().catch(function(err) {
         console.error("Error playing menu video:", err);
       });
-    }
+    });
   </script>
 
 </body>
