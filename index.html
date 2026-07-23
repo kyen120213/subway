@@ -3,120 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Launcher</title>
+  <title>Subway Launcher</title>
+  
+  <link rel="icon" type="image/png" href="IMG_7114.png">
+
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
       width: 100%;
       height: 100%;
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
       overflow: hidden;
-      user-select: none;
-      -webkit-user-select: none;
+      background-color: #000;
     }
 
     video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
       display: block;
-      pointer-events: none; 
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-    button {
-      padding: 12px 28px;
-      font-size: 18px;
-      color: #fff;
-      background-color: #222;
-      border: 2px solid #555;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 0 10px;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background-color: #444;
     }
   </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-  <div id="startOverlay" class="overlay">
-    <h1>Click to Launch</h1>
-    <button onclick="startLauncher()">Start</button>
-  </div>
-
-  <video id="myVideo" muted playsinline preload="auto">
-    <source id="videoSource" src="Launcher.mp4" type="video/mp4">
-    Your browser does not support the video tag.
+  <video id="myVideo" autoplay muted playsinline preload="auto">
+    <source src="Launcher.mp4" type="video/mp4">
   </video>
 
   <script>
     const video = document.getElementById('myVideo');
-    const startOverlay = document.getElementById('startOverlay');
 
-    // Block right clicks
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    }, false);
+    // Prevent right-click menu
+    document.addEventListener('contextmenu', e => e.preventDefault(), false);
 
-    // Block player keyboard shortcuts (Space, Arrows, F, K)
-    document.addEventListener('keydown', function(e) {
-      if ([32, 37, 38, 39, 40, 70, 75].includes(e.keyCode)) {
-        e.preventDefault();
+    // Prevent unwanted keyboard shortcuts
+    document.addEventListener('keydown', e => {
+      if ([32, 37, 38, 39, 40, 70, 75].includes(e.keyCode)) e.preventDefault();
+    });
+
+    // Auto-play Launcher.mp4 with sound on load (or fallback if blocked)
+    window.addEventListener('DOMContentLoaded', () => {
+      video.muted = false; // Attempt to unmute immediately
+      
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback: If browser blocks audio on load, start muted
+          video.muted = true;
+          video.play();
+        });
       }
     });
 
-    function openFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
-    }
-
-    function startLauncher() {
-      startOverlay.style.display = 'none';
-      openFullscreen();
-      video.play().catch(function(error) {
-        console.error("Playback error:", error);
-      });
-    }
-
+    // When Launcher.mp4 finishes, loop Full Menu.mp4
     video.addEventListener('ended', function() {
-      video.src = 'Starter%20Menu.mp4';
+      video.src = 'Full Menu.mp4';
       video.loop = true;
       video.muted = false;
       video.load();
-      video.play().catch(function(err) {
-        console.error("Error playing menu video:", err);
-      });
+      video.play().catch(err => console.error("Menu play error:", err));
     });
   </script>
 
